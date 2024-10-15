@@ -1,6 +1,6 @@
 #include "tmfs.hh"
 
-int tmfs_getattr(const char *path, struct stat *stbuf)
+int tmfs_getattr(const char *path, struct stat *stbuf FUSE3_ONLY(, struct fuse_file_info *))
 {
   // get the real path
   std::string real_path = get_real_path(path);

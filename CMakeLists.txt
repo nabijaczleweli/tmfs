@@ -5,9 +5,13 @@ project(TMFS CXX)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(PkgConfig)
-pkg_check_modules(FUSE REQUIRED fuse)
+pkg_check_modules(FUSE fuse3)
+if(NOT FUSE_FOUND)
+  pkg_check_modules(FUSE REQUIRED fuse)
+endif()
+string(REGEX REPLACE "\\..*" "" FUSE_VERSION ${FUSE_VERSION})
 
-add_definitions(${FUSE_CFLAGS} -Wall)
+add_definitions(${FUSE_CFLAGS} -DFUSE=${FUSE_VERSION} -Wall)
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_executable(tmfs
